@@ -139,7 +139,7 @@ const PrizeWheel: React.FC = () => {
       }
     },
     interactivity: {
-      detect_on: "canvas",
+      detectsOn: "window",
       events: {
         onhover: {
           enable: false
@@ -214,7 +214,7 @@ const PrizeWheel: React.FC = () => {
       }
     },
     interactivity: {
-      detect_on: "canvas",
+      detectsOn: "window",
       events: {
         onhover: {
           enable: false
