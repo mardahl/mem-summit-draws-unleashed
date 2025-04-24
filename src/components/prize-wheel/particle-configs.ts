@@ -1,4 +1,3 @@
-
 export const idleParticlesConfig = {
   particles: {
     number: {
@@ -28,7 +27,7 @@ export const idleParticlesConfig = {
       direction: "none" as const,
       random: true,
       straight: false,
-      out_mode: "out",
+      out_mode: "out" as const,
       bounce: false
     }
   },
@@ -98,7 +97,7 @@ export const spinningParticlesConfig = {
       direction: "none" as const,
       random: true,
       straight: false,
-      out_mode: "out",
+      out_mode: "out" as const,
       bounce: false,
       attract: {
         enable: false,
