@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,8 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog";
-import { Settings } from "lucide-react";
+import { Settings, X } from "lucide-react";
 import Cookies from 'js-cookie';
 
 interface HeaderSettingsProps {
@@ -19,6 +21,14 @@ interface HeaderSettingsProps {
 const HeaderSettings = ({ onHeaderChange }: HeaderSettingsProps) => {
   const [open, setOpen] = useState(false);
   const [headerText, setHeaderText] = useState('');
+
+  // Load the existing header text when opening the modal
+  useEffect(() => {
+    if (open) {
+      const savedText = Cookies.get('prizeHeaderText') || '';
+      setHeaderText(savedText);
+    }
+  }, [open]);
 
   const handleSave = () => {
     if (headerText.trim()) {
@@ -40,7 +50,11 @@ const HeaderSettings = ({ onHeaderChange }: HeaderSettingsProps) => {
           <Settings className="mr-3 h-5 w-5" />
           <span>Change Header Text</span>
         </Button>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent 
+          className="sm:max-w-[425px]" 
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onInteractOutside={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle>Change Header Text</DialogTitle>
             <DialogDescription>
@@ -53,8 +67,13 @@ const HeaderSettings = ({ onHeaderChange }: HeaderSettingsProps) => {
               value={headerText}
               onChange={(e) => setHeaderText(e.target.value)}
             />
-            <Button onClick={handleSave}>Save Changes</Button>
           </div>
+          <DialogFooter className="flex justify-end space-x-2">
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={handleSave}>Save Changes</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
