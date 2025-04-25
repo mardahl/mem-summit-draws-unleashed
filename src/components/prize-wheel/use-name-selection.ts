@@ -7,7 +7,9 @@ const COOKIE_NAME = 'selectedNames';
 const ANIMATION_DURATION = 3000;
 
 export const useNameSelection = () => {
-  const [names, setNames] = useState<string[]>([]);
+  const [allNames, setAllNames] = useState<string[]>([]);
+  const [availableNames, setAvailableNames] = useState<string[]>([]);
+  const [winners, setWinners] = useState<string[]>([]);
   const [selectedName, setSelectedName] = useState<string>('');
   const [isSpinning, setIsSpinning] = useState(false);
   const [displayName, setDisplayName] = useState('Let\'s find a winner!');
@@ -15,7 +17,17 @@ export const useNameSelection = () => {
 
   useEffect(() => {
     fetchNames();
+    // Load previous winners from cookie on initial load
+    const savedWinners = getSelectedNames();
+    setWinners(savedWinners);
   }, []);
+
+  // Update available names whenever all names or winners change
+  useEffect(() => {
+    if (allNames.length > 0) {
+      setAvailableNames(allNames.filter(name => !winners.includes(name)));
+    }
+  }, [allNames, winners]);
 
   const fetchNames = async () => {
     try {
@@ -23,7 +35,7 @@ export const useNameSelection = () => {
       const text = await response.text();
       // Filter empty names and trim whitespace
       const rows = text.split('\n').map(name => name.trim()).filter(name => name.length > 0);
-      setNames(rows);
+      setAllNames(rows);
       setIsLoaded(true);
     } catch (error) {
       toast({
@@ -39,25 +51,28 @@ export const useNameSelection = () => {
     return cookie ? JSON.parse(cookie) : [];
   };
 
-  const addSelectedName = (name: string) => {
-    const selected = getSelectedNames();
-    Cookies.set(COOKIE_NAME, JSON.stringify([...selected, name]));
+  const saveSelectedNames = (selectedNames: string[]) => {
+    Cookies.set(COOKIE_NAME, JSON.stringify(selectedNames));
   };
 
   const resetSelections = () => {
+    setWinners([]);
     Cookies.remove(COOKIE_NAME);
+    // Reset available names to all names
+    setAvailableNames([...allNames]);
     toast({
       title: "Reset Complete",
       description: "All selections have been cleared"
     });
   };
 
-  const animateNameSelection = (availableNames: string[]) => {
+  const animateNameSelection = (names: string[]) => {
     let iterations = 0;
     const maxIterations = 20;
     const interval = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * availableNames.length);
-      setDisplayName(availableNames[randomIndex]);
+      // Get random name from available names for animation
+      const randomIndex = Math.floor(Math.random() * names.length);
+      setDisplayName(names[randomIndex]);
       iterations++;
 
       if (iterations >= maxIterations) {
@@ -75,26 +90,9 @@ export const useNameSelection = () => {
     }, 100);
   };
 
-  const findValidName = (availableNames: string[]): string => {
-    if (availableNames.length === 0) {
-      return '';
-    }
-    
-    const randomIndex = Math.floor(Math.random() * availableNames.length);
-    const name = availableNames[randomIndex];
-    
-    // Ensure we have a valid name
-    if (!name || name.trim() === '') {
-      // Try again if the name is empty
-      return findValidName(availableNames.filter(n => n && n.trim() !== ''));
-    }
-    
-    return name;
-  };
-
   const selectName = () => {
     // Don't proceed if names haven't loaded yet
-    if (!isLoaded || names.length === 0) {
+    if (!isLoaded || allNames.length === 0) {
       toast({
         title: "Loading",
         description: "Names are still loading, please try again in a moment.",
@@ -102,9 +100,6 @@ export const useNameSelection = () => {
       });
       return;
     }
-
-    const selectedNames = getSelectedNames();
-    const availableNames = names.filter(name => !selectedNames.includes(name) && name.trim() !== '');
 
     if (availableNames.length === 0) {
       toast({
@@ -117,30 +112,26 @@ export const useNameSelection = () => {
 
     setIsSpinning(true);
     
-    // Use our recursive function to ensure we get a valid name
-    const newSelectedName = findValidName(availableNames);
+    // Use the direct array selection method as shown in the example
+    const randomIndex = Math.floor(Math.random() * availableNames.length);
+    const newWinner = availableNames[randomIndex];
     
-    if (newSelectedName) {
-      setSelectedName(newSelectedName);
-      addSelectedName(newSelectedName);
-      
-      // Make sure we have a name to animate before starting
-      animateNameSelection(availableNames.filter(name => name && name.trim() !== ''));
-    } else {
-      // This is a fallback in case findValidName fails
-      toast({
-        title: "Error",
-        description: "Could not find a valid name. Please try again.",
-        variant: "destructive"
-      });
-      setIsSpinning(false);
-    }
+    setSelectedName(newWinner);
+    
+    // Update winners list
+    const updatedWinners = [...winners, newWinner];
+    setWinners(updatedWinners);
+    saveSelectedNames(updatedWinners);
+    
+    // Animate the selection from the available names
+    animateNameSelection([...availableNames]);
   };
 
   return {
     displayName,
     isSpinning,
     selectName,
-    resetSelections
+    resetSelections,
+    winners
   };
 };
