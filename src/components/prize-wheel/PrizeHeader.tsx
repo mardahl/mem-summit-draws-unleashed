@@ -4,7 +4,7 @@ import { PartyPopper } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 const PrizeHeader = () => {
-  const [headerText, setHeaderText] = useState('MEM Summit 2025');
+  const [headerText, setHeaderText] = useState('Lucky Draw!');
   
   useEffect(() => {
     const savedText = Cookies.get('prizeHeaderText');
