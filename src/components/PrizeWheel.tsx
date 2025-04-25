@@ -16,15 +16,15 @@ const PrizeWheel: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 p-8 relative">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 p-8 relative overflow-hidden">
       <Particles
         id="tsparticles"
         init={particlesInit}
         options={isSpinning ? spinningParticlesConfig : idleParticlesConfig}
-        className="absolute top-0 left-0 w-full h-full"
+        className="absolute top-0 left-0 w-full h-full z-0"
       />
       
-      <div className="w-full max-w-7xl mx-auto">
+      <div className="w-full max-w-4xl mx-auto z-10 flex flex-col items-center justify-center space-y-8">
         <PrizeHeader />
         <PrizeDisplay 
           displayName={displayName}
@@ -38,3 +38,4 @@ const PrizeWheel: React.FC = () => {
 };
 
 export default PrizeWheel;
+
