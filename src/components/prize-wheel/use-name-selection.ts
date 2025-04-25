@@ -17,7 +17,8 @@ export const useNameSelection = () => {
   useEffect(() => {
     fetchNames();
     // Initialize winners from cookies
-    setWinners(getSelectedNames());
+    const savedWinners = getSelectedNames();
+    setWinners(savedWinners);
   }, []);
 
   const fetchNames = async () => {
@@ -43,15 +44,15 @@ export const useNameSelection = () => {
   };
 
   const addSelectedName = (name: string) => {
-    const selected = getSelectedNames();
-    const updatedWinners = [...selected, name];
+    // Update both cookie and state
+    const updatedWinners = [...winners, name];
     Cookies.set(COOKIE_NAME, JSON.stringify(updatedWinners));
-    setWinners(updatedWinners); // Update local state
+    setWinners(updatedWinners);
   };
 
   const resetSelections = () => {
     Cookies.remove(COOKIE_NAME);
-    setWinners([]); // Clear local state
+    setWinners([]); 
     toast({
       title: "Reset Complete",
       description: "All selections have been cleared"
@@ -109,8 +110,8 @@ export const useNameSelection = () => {
       return;
     }
 
-    const selectedNames = getSelectedNames();
-    const availableNames = names.filter(name => !selectedNames.includes(name) && name.trim() !== '');
+    // Use our current state to filter available names
+    const availableNames = names.filter(name => !winners.includes(name) && name.trim() !== '');
 
     if (availableNames.length === 0) {
       toast({
@@ -148,6 +149,6 @@ export const useNameSelection = () => {
     isSpinning,
     selectName,
     resetSelections,
-    winners // Use the local state instead of calling getSelectedNames() each time
+    winners
   };
 };
