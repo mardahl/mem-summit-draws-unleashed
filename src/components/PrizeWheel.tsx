@@ -7,17 +7,16 @@ import { useNameSelection } from './prize-wheel/use-name-selection';
 import { idleParticlesConfig, spinningParticlesConfig } from './prize-wheel/particle-configs';
 import PrizeHeader from './prize-wheel/PrizeHeader';
 import PrizeDisplay from './prize-wheel/PrizeDisplay';
-import WinnersList from './prize-wheel/WinnersList';
 
 const PrizeWheel: React.FC = () => {
-  const { displayName, isSpinning, selectName, resetSelections, winners } = useNameSelection();
+  const { displayName, isSpinning, selectName, resetSelections } = useNameSelection();
   
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 p-4 md:p-8 relative overflow-x-hidden">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 p-8 relative overflow-hidden">
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -25,7 +24,7 @@ const PrizeWheel: React.FC = () => {
         className="absolute top-0 left-0 w-full h-full z-0"
       />
       
-      <div className="w-full max-w-4xl mx-auto z-10 flex flex-col items-center justify-center py-4">
+      <div className="w-full max-w-4xl mx-auto z-10 flex flex-col items-center justify-center space-y-8">
         <PrizeHeader />
         <PrizeDisplay 
           displayName={displayName}
@@ -33,10 +32,10 @@ const PrizeWheel: React.FC = () => {
           onSelect={selectName}
           onReset={resetSelections}
         />
-        <WinnersList winners={winners} />
       </div>
     </div>
   );
 };
 
 export default PrizeWheel;
+

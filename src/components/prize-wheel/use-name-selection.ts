@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { toast } from '@/hooks/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import Cookies from 'js-cookie';
 
 const COOKIE_NAME = 'selectedNames';
@@ -12,13 +12,9 @@ export const useNameSelection = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [displayName, setDisplayName] = useState('Let\'s find a winner!');
   const [isLoaded, setIsLoaded] = useState(false);
-  const [winners, setWinners] = useState<string[]>([]);
 
   useEffect(() => {
     fetchNames();
-    // Initialize winners from cookies
-    const savedWinners = getSelectedNames();
-    setWinners(savedWinners);
   }, []);
 
   const fetchNames = async () => {
@@ -44,15 +40,12 @@ export const useNameSelection = () => {
   };
 
   const addSelectedName = (name: string) => {
-    // Update both cookie and state
-    const updatedWinners = [...winners, name];
-    Cookies.set(COOKIE_NAME, JSON.stringify(updatedWinners));
-    setWinners(updatedWinners);
+    const selected = getSelectedNames();
+    Cookies.set(COOKIE_NAME, JSON.stringify([...selected, name]));
   };
 
   const resetSelections = () => {
     Cookies.remove(COOKIE_NAME);
-    setWinners([]); 
     toast({
       title: "Reset Complete",
       description: "All selections have been cleared"
@@ -110,8 +103,8 @@ export const useNameSelection = () => {
       return;
     }
 
-    // Use our current state to filter available names
-    const availableNames = names.filter(name => !winners.includes(name) && name.trim() !== '');
+    const selectedNames = getSelectedNames();
+    const availableNames = names.filter(name => !selectedNames.includes(name) && name.trim() !== '');
 
     if (availableNames.length === 0) {
       toast({
@@ -148,7 +141,6 @@ export const useNameSelection = () => {
     displayName,
     isSpinning,
     selectName,
-    resetSelections,
-    winners
+    resetSelections
   };
 };
