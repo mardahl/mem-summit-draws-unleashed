@@ -1,9 +1,9 @@
-
 import { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import Cookies from 'js-cookie';
 
 const COOKIE_NAME = 'selectedNames';
+const NAMES_COOKIE = 'availableNames';
 const ANIMATION_DURATION = 3000;
 
 export const useNameSelection = () => {
@@ -31,11 +31,26 @@ export const useNameSelection = () => {
     }
   }, [allNames, winners]);
 
+  const handleNamesLoaded = (newNames: string[]) => {
+    setAllNames(newNames);
+    setAvailableNames(newNames.filter(name => !winners.includes(name)));
+    setDisplayName('Let\'s find a winner!');
+  };
+
   const fetchNames = async () => {
     try {
+      // Check if we have custom names stored
+      const customNames = Cookies.get(NAMES_COOKIE);
+      if (customNames) {
+        const names = JSON.parse(customNames);
+        setAllNames(names);
+        setIsLoaded(true);
+        return;
+      }
+
+      // Fall back to default names.csv
       const response = await fetch('/names.csv');
       const text = await response.text();
-      // Filter empty names and trim whitespace
       const rows = text.split('\n').map(name => name.trim()).filter(name => name.length > 0);
       setAllNames(rows);
       setIsLoaded(true);
@@ -150,6 +165,10 @@ export const useNameSelection = () => {
     selectName,
     resetSelections,
     winners,
-    removeWinner
+    removeWinner,
+    handleNamesLoaded: (names: string[]) => {
+      Cookies.set(NAMES_COOKIE, JSON.stringify(names));
+      handleNamesLoaded(names);
+    }
   };
 };

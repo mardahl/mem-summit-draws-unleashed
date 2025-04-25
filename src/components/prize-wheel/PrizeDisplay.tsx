@@ -1,19 +1,23 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import CsvUpload from './CsvUpload';
 
 interface PrizeDisplayProps {
   displayName: string;
   isSpinning: boolean;
   onSelect: () => void;
   onReset: () => void;
+  onNamesLoaded: (names: string[]) => void;
 }
 
-const PrizeDisplay = ({ displayName, isSpinning, onSelect }: PrizeDisplayProps) => {
+const PrizeDisplay = ({ displayName, isSpinning, onSelect, onNamesLoaded }: PrizeDisplayProps) => {
   return (
     <div className="bg-gradient-to-br from-white via-purple-50 to-blue-50 rounded-3xl shadow-2xl p-12 mb-8 w-full max-w-4xl relative z-10 border border-purple-100">
+      <div className="flex justify-end mb-4">
+        <CsvUpload onNamesLoaded={onNamesLoaded} />
+      </div>
       <div className="text-center mb-12">
         <Award className="w-16 h-16 mx-auto mb-6 text-purple-500" />
         <h2 
