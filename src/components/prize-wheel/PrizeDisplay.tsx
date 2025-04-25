@@ -1,14 +1,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, Sparkles, Award, MoreVertical } from 'lucide-react';
+import { Loader2, Sparkles, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import CsvUpload from './CsvUpload';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 interface PrizeDisplayProps {
   displayName: string;
@@ -21,23 +15,6 @@ interface PrizeDisplayProps {
 const PrizeDisplay = ({ displayName, isSpinning, onSelect, onReset, onNamesLoaded }: PrizeDisplayProps) => {
   return (
     <div className="bg-gradient-to-br from-white via-purple-50 to-blue-50 rounded-3xl shadow-2xl p-12 mb-8 w-full max-w-4xl relative z-10 border border-purple-100">
-      <div className="flex justify-end mb-4">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <MoreVertical className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white">
-            <DropdownMenuItem asChild>
-              <CsvUpload onNamesLoaded={onNamesLoaded} />
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={onReset}>
-              Reset Selections
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
       <div className="text-center mb-12">
         <Award 
           className={cn(

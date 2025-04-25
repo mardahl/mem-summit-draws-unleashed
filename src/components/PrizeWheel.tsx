@@ -8,6 +8,15 @@ import { idleParticlesConfig, spinningParticlesConfig } from './prize-wheel/part
 import PrizeHeader from './prize-wheel/PrizeHeader';
 import PrizeDisplay from './prize-wheel/PrizeDisplay';
 import WinnersList from './prize-wheel/WinnersList';
+import { MoreVertical } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import CsvUpload from './prize-wheel/CsvUpload';
 
 const PrizeWheel: React.FC = () => {
   const { displayName, isSpinning, selectName, resetSelections, winners, removeWinner, handleNamesLoaded } = useNameSelection();
@@ -33,6 +42,24 @@ const PrizeWheel: React.FC = () => {
         options={isSpinning ? spinningParticlesConfig : idleParticlesConfig}
         className="absolute top-0 left-0 w-full h-full z-10"
       />
+
+      <div className="absolute top-4 right-4 z-50">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white/90">
+              <MoreVertical className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-white">
+            <DropdownMenuItem asChild>
+              <CsvUpload onNamesLoaded={handleNamesLoaded} />
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={resetSelections}>
+              Reset Selections
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       
       <div className="w-full max-w-4xl mx-auto z-20 flex flex-col items-center justify-center space-y-8">
         <PrizeHeader />
