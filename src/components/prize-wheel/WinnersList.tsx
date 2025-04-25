@@ -22,7 +22,7 @@ const WinnersList: React.FC<WinnersListProps> = ({ winners }) => {
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {winners.map((winner, index) => (
-          <Card key={index} className="overflow-hidden transform hover:scale-105 transition-transform duration-200">
+          <Card key={index} className="overflow-hidden transform hover:scale-105 transition-transform duration-200 animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
             <CardContent className="p-6 bg-gradient-to-r from-purple-500/10 to-blue-500/10">
               <div className="flex items-center gap-3">
                 <span className="text-2xl font-bold text-purple-600">#{index + 1}</span>
