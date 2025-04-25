@@ -1,7 +1,6 @@
 
 import React, { useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { FileInput, Upload } from 'lucide-react';
+import { FileInput } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 interface CsvUploadProps {
@@ -17,7 +16,6 @@ const CsvUpload: React.FC<CsvUploadProps> = ({ onNamesLoaded }) => {
 
     try {
       const text = await file.text();
-      // Filter empty names and trim whitespace
       const names = text.split('\n')
         .map(name => name.trim())
         .filter(name => name.length > 0);
@@ -44,14 +42,13 @@ const CsvUpload: React.FC<CsvUploadProps> = ({ onNamesLoaded }) => {
       });
     }
 
-    // Reset the file input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <>
       <input
         ref={fileInputRef}
         type="file"
@@ -59,15 +56,14 @@ const CsvUpload: React.FC<CsvUploadProps> = ({ onNamesLoaded }) => {
         onChange={handleFileUpload}
         className="hidden"
       />
-      <Button
-        variant="outline"
+      <button
         onClick={() => fileInputRef.current?.click()}
-        className="gap-2"
+        className="flex items-center gap-2 w-full"
       >
-        <Upload className="h-4 w-4" />
-        Upload Names CSV
-      </Button>
-    </div>
+        <FileInput className="h-4 w-4" />
+        <span>Upload Names CSV</span>
+      </button>
+    </>
   );
 };
 
