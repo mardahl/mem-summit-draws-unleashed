@@ -39,7 +39,12 @@ const PrizeDisplay = ({ displayName, isSpinning, onSelect, onReset, onNamesLoade
         </DropdownMenu>
       </div>
       <div className="text-center mb-12">
-        <Award className="w-16 h-16 mx-auto mb-6 text-purple-500" />
+        <Award 
+          className={cn(
+            "w-16 h-16 mx-auto mb-6 text-purple-500",
+            isSpinning && "animate-[pulse_1s_ease-in-out_infinite] text-purple-600"
+          )} 
+        />
         <h2 
           className={cn(
             "text-5xl md:text-7xl font-bold transition-all duration-500",
