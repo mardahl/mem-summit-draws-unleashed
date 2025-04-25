@@ -71,20 +71,20 @@ const PrizeWheel: React.FC = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent 
             align="end" 
-            className="w-56 bg-white/95 backdrop-blur-sm p-2 space-y-1"
+            className="bg-white/95 backdrop-blur-sm"
           >
             <DropdownMenuItem 
               asChild 
-              className="py-3 px-4 cursor-pointer rounded-md hover:bg-gray-100/80 focus:bg-gray-100/80"
+              className="flex items-center w-full px-3 py-2 cursor-pointer hover:bg-gray-100/80 focus:bg-gray-100/80"
             >
               <CsvUpload onNamesLoaded={handleNamesLoaded} />
             </DropdownMenuItem>
             <HeaderSettings onHeaderChange={handleHeaderChange} />
             <DropdownMenuItem 
               onSelect={handleResetSelections}
-              className="py-3 px-4 cursor-pointer rounded-md hover:bg-gray-100/80 focus:bg-gray-100/80"
+              className="flex items-center w-full px-3 py-2 cursor-pointer hover:bg-gray-100/80 focus:bg-gray-100/80"
             >
-              <RefreshCw className="mr-3 h-5 w-5" /> 
+              <RefreshCw className="mr-2 h-4 w-4" /> 
               <span>Reset to Defaults</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
