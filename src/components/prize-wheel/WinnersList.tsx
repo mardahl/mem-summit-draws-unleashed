@@ -13,12 +13,13 @@ const WinnersList: React.FC<WinnersListProps> = ({ winners, onRemoveWinner }) =>
 
   return (
     <div 
-      className={`w-full min-h-[200px] transition-all duration-500 ease-in-out
-                 ${hasWinners ? 'opacity-100' : 'opacity-0'}`}
+      className="w-full min-h-[200px] flex flex-col justify-center"
+      aria-hidden={!hasWinners}
     >
       <div 
-        className="w-full bg-white bg-opacity-80 rounded-xl shadow-lg p-6 backdrop-blur-sm border border-purple-100 
-                   animate-in slide-in-from-bottom duration-500"
+        className={`w-full bg-white bg-opacity-80 rounded-xl shadow-lg p-6 backdrop-blur-sm border border-purple-100 
+                   transition-all duration-500 ease-in-out
+                   ${hasWinners ? 'opacity-100 transform-none' : 'opacity-0 transform translate-y-8'}`}
       >
         <div className="flex items-center justify-center mb-4">
           <Trophy className="w-6 h-6 text-yellow-500 mr-2" />

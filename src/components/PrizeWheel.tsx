@@ -102,18 +102,21 @@ const PrizeWheel: React.FC = () => {
         </DropdownMenu>
       </div>
       
-      <div className="w-full max-w-4xl mx-auto z-20 flex flex-col items-center justify-center space-y-8">
-        <PrizeHeader key={headerUpdate} />
-        <PrizeDisplay 
-          displayName={displayName}
-          isSpinning={isSpinning}
-          onSelect={selectName}
-          onReset={resetSelections}
-          onNamesLoaded={handleNamesLoaded}
-        />
-        {winners.length > 0 && (
+      {/* Added a containing div with fixed height to prevent layout shifts */}
+      <div className="w-full max-w-4xl mx-auto z-20 flex flex-col items-center justify-center">
+        {/* Content wrapper with fixed layout */}
+        <div className="w-full flex flex-col items-center space-y-8">
+          <PrizeHeader key={headerUpdate} />
+          <PrizeDisplay 
+            displayName={displayName}
+            isSpinning={isSpinning}
+            onSelect={selectName}
+            onReset={resetSelections}
+            onNamesLoaded={handleNamesLoaded}
+          />
+          {/* Always render WinnersList, it will handle its own visibility */}
           <WinnersList winners={winners} onRemoveWinner={removeWinner} />
-        )}
+        </div>
       </div>
     </div>
   );
