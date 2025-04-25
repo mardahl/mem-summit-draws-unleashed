@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
 import Particles from "react-particles";
@@ -16,13 +16,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import CsvUpload from './prize-wheel/CsvUpload';
+import HeaderSettings from './prize-wheel/HeaderSettings';
+import Cookies from 'js-cookie';
 
 const PrizeWheel: React.FC = () => {
   const { displayName, isSpinning, selectName, resetSelections, winners, removeWinner, handleNamesLoaded } = useNameSelection();
-  
+  const [headerUpdate, setHeaderUpdate] = useState(0);
+
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
+
+  const handleResetSelections = () => {
+    resetSelections();
+    Cookies.remove('prizeHeaderText');
+    setHeaderUpdate(prev => prev + 1);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 relative overflow-hidden">
@@ -64,8 +73,9 @@ const PrizeWheel: React.FC = () => {
             >
               <CsvUpload onNamesLoaded={handleNamesLoaded} />
             </DropdownMenuItem>
+            <HeaderSettings onHeaderChange={() => setHeaderUpdate(prev => prev + 1)} />
             <DropdownMenuItem 
-              onSelect={resetSelections}
+              onSelect={handleResetSelections}
               className="py-3 px-4 cursor-pointer rounded-md hover:bg-gray-100/80 focus:bg-gray-100/80"
             >
               <RefreshCw className="mr-3 h-5 w-5" /> 
@@ -76,7 +86,7 @@ const PrizeWheel: React.FC = () => {
       </div>
       
       <div className="w-full max-w-4xl mx-auto z-20 flex flex-col items-center justify-center space-y-8">
-        <PrizeHeader />
+        <PrizeHeader key={headerUpdate} />
         <PrizeDisplay 
           displayName={displayName}
           isSpinning={isSpinning}
