@@ -87,13 +87,15 @@ export const useNameSelection = () => {
   const resetSelections = () => {
     setWinners([]);
     Cookies.remove(COOKIE_NAME);
-    // Reset available names to all names
-    setAvailableNames([...allNames]);
+    
+    // Refetch the original names from CSV after resetting
+    fetchNames();
+    
     setSelectedName('');
     setDisplayName('Let\'s find a winner!');
     toast({
       title: "Reset Complete",
-      description: "All selections have been cleared"
+      description: "All selections have been reset to defaults"
     });
   };
 

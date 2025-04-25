@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState } from 'react';
 import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
@@ -31,6 +30,7 @@ const PrizeWheel: React.FC = () => {
   const handleResetSelections = () => {
     resetSelections();
     Cookies.remove('prizeHeaderText');
+    Cookies.remove('availableNames');
     setHeaderUpdate(prev => prev + 1);
   };
 
@@ -85,7 +85,7 @@ const PrizeWheel: React.FC = () => {
               className="py-3 px-4 cursor-pointer rounded-md hover:bg-gray-100/80 focus:bg-gray-100/80"
             >
               <RefreshCw className="mr-3 h-5 w-5" /> 
-              <span>Reset Selections</span>
+              <span>Reset to Defaults</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
