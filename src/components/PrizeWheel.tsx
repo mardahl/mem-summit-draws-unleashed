@@ -1,4 +1,3 @@
-
 import React, { useCallback } from 'react';
 import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
@@ -43,19 +42,34 @@ const PrizeWheel: React.FC = () => {
         className="absolute top-0 left-0 w-full h-full z-10"
       />
 
-      <div className="absolute top-4 right-4 z-50">
+      <div className="absolute top-6 right-6 z-50">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white/90">
-              <MoreVertical className="h-4 w-4" />
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-10 w-10 bg-white/90 backdrop-blur-sm hover:bg-white/95 rounded-full"
+              aria-label="Open settings menu"
+            >
+              <MoreVertical className="h-5 w-5" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-white">
-            <DropdownMenuItem asChild>
+          <DropdownMenuContent 
+            align="end" 
+            className="w-56 bg-white/95 backdrop-blur-sm p-2 space-y-1"
+          >
+            <DropdownMenuItem 
+              asChild 
+              className="py-3 px-4 cursor-pointer rounded-md hover:bg-gray-100/80 focus:bg-gray-100/80"
+            >
               <CsvUpload onNamesLoaded={handleNamesLoaded} />
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={resetSelections}>
-              <RefreshCw className="mr-2 h-4 w-4" /> Reset Selections
+            <DropdownMenuItem 
+              onSelect={resetSelections}
+              className="py-3 px-4 cursor-pointer rounded-md hover:bg-gray-100/80 focus:bg-gray-100/80"
+            >
+              <RefreshCw className="mr-3 h-5 w-5" /> 
+              <span>Reset Selections</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
