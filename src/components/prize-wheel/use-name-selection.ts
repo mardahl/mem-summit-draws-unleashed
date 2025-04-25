@@ -66,7 +66,7 @@ export const useNameSelection = () => {
         
         setTimeout(() => {
           toast({
-            title: "Selected!",
+            title: "We have a winner!",
             description: `${selectedName} has been selected!`
           });
         }, 500);
