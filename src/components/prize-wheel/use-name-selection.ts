@@ -54,7 +54,19 @@ export const useNameSelection = () => {
   };
 
   const saveSelectedNames = (selectedNames: string[]) => {
-    Cookies.set(COOKIE_NAME, JSON.stringify(selectedNames));
+    // Ensure we're only saving unique names to the cookie
+    const uniqueNames = [...new Set(selectedNames)];
+    Cookies.set(COOKIE_NAME, JSON.stringify(uniqueNames));
+  };
+
+  const removeWinner = (winnerToRemove: string) => {
+    const updatedWinners = winners.filter(name => name !== winnerToRemove);
+    setWinners(updatedWinners);
+    saveSelectedNames(updatedWinners);
+    toast({
+      title: "Winner Removed",
+      description: `${winnerToRemove} has been removed from winners list`
+    });
   };
 
   const resetSelections = () => {
@@ -136,6 +148,7 @@ export const useNameSelection = () => {
     isSpinning,
     selectName,
     resetSelections,
-    winners
+    winners,
+    removeWinner
   };
 };

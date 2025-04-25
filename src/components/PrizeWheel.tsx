@@ -11,7 +11,7 @@ import WinnersList from './prize-wheel/WinnersList';
 import FloatingResetButton from './prize-wheel/FloatingResetButton';
 
 const PrizeWheel: React.FC = () => {
-  const { displayName, isSpinning, selectName, resetSelections, winners } = useNameSelection();
+  const { displayName, isSpinning, selectName, resetSelections, winners, removeWinner } = useNameSelection();
   
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
@@ -35,7 +35,7 @@ const PrizeWheel: React.FC = () => {
           onReset={resetSelections}
         />
         {winners.length > 0 && (
-          <WinnersList winners={winners} />
+          <WinnersList winners={winners} onRemoveWinner={removeWinner} />
         )}
       </div>
       <FloatingResetButton onReset={resetSelections} />
