@@ -10,7 +10,7 @@ export const useNameSelection = () => {
   const [names, setNames] = useState<string[]>([]);
   const [selectedName, setSelectedName] = useState<string>('');
   const [isSpinning, setIsSpinning] = useState(false);
-  const [displayName, setDisplayName] = useState('Click GO! to start');
+  const [displayName, setDisplayName] = useState('Let\'s find a winner!');
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
