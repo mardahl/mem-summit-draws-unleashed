@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Settings } from "lucide-react";
 import Cookies from 'js-cookie';
@@ -42,6 +43,9 @@ const HeaderSettings = ({ onHeaderChange }: HeaderSettingsProps) => {
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Change Header Text</DialogTitle>
+            <DialogDescription>
+              Enter the text you want to display in the header.
+            </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <Input

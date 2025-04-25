@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState } from 'react';
 import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
@@ -30,6 +31,11 @@ const PrizeWheel: React.FC = () => {
   const handleResetSelections = () => {
     resetSelections();
     Cookies.remove('prizeHeaderText');
+    setHeaderUpdate(prev => prev + 1);
+  };
+
+  const handleHeaderChange = (text: string) => {
+    console.log("Header text changed to:", text);
     setHeaderUpdate(prev => prev + 1);
   };
 
@@ -73,7 +79,7 @@ const PrizeWheel: React.FC = () => {
             >
               <CsvUpload onNamesLoaded={handleNamesLoaded} />
             </DropdownMenuItem>
-            <HeaderSettings onHeaderChange={() => setHeaderUpdate(prev => prev + 1)} />
+            <HeaderSettings onHeaderChange={handleHeaderChange} />
             <DropdownMenuItem 
               onSelect={handleResetSelections}
               className="py-3 px-4 cursor-pointer rounded-md hover:bg-gray-100/80 focus:bg-gray-100/80"
