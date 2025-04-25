@@ -6,7 +6,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/mem-summit-draws-unleashed/', // Add base URL for GitHub Pages
+  base: mode === 'production' ? '/mem-summit-draws-unleashed/' : '/', // Use base only in production
   server: {
     host: "::",
     port: 8080,

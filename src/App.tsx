@@ -9,8 +9,8 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Define basename based on environment
-const basename = import.meta.env.DEV ? '/' : '/mem-summit-draws-unleashed';
+// Define basename for Router
+const basename = import.meta.env.MODE === 'production' ? '/mem-summit-draws-unleashed' : '';
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
