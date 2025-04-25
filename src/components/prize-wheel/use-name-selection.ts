@@ -82,7 +82,7 @@ export const useNameSelection = () => {
     });
   };
 
-  const animateNameSelection = (names: string[]) => {
+  const animateNameSelection = (names: string[], finalWinner: string) => {
     let iterations = 0;
     const maxIterations = 20;
     const interval = setInterval(() => {
@@ -93,13 +93,18 @@ export const useNameSelection = () => {
 
       if (iterations >= maxIterations) {
         clearInterval(interval);
-        setDisplayName(selectedName);
+        setDisplayName(finalWinner);
         setIsSpinning(false);
+        
+        // ONLY add the winner to the winners list AFTER animation completes
+        const updatedWinners = [...winners, finalWinner];
+        setWinners(updatedWinners);
+        saveSelectedNames(updatedWinners);
         
         setTimeout(() => {
           toast({
             title: "We have a winner!",
-            description: `${selectedName} has been selected!`
+            description: `${finalWinner} has been selected!`
           });
         }, 500);
       }
@@ -128,19 +133,15 @@ export const useNameSelection = () => {
 
     setIsSpinning(true);
     
-    // Use the direct array selection method 
+    // Select a winner from the available names
     const randomIndex = Math.floor(Math.random() * availableNames.length);
     const newWinner = availableNames[randomIndex];
     
     setSelectedName(newWinner);
     
-    // Update winners list
-    const updatedWinners = [...winners, newWinner];
-    setWinners(updatedWinners);
-    saveSelectedNames(updatedWinners);
-    
+    // Don't update winners here - it happens after animation completes
     // Animate the selection from the available names
-    animateNameSelection([...availableNames]);
+    animateNameSelection([...availableNames], newWinner);
   };
 
   return {
