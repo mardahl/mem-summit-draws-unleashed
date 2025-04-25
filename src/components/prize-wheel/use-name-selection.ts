@@ -49,13 +49,17 @@ export const useNameSelection = () => {
         return;
       }
 
-      // Fall back to default names.csv
-      const response = await fetch('/names.csv');
+      // Determine the base URL for proper path resolution
+      const baseUrl = import.meta.env.DEV ? '' : '/mem-summit-draws-unleashed';
+      
+      // Fall back to default names.csv with correct base URL
+      const response = await fetch(`${baseUrl}/names.csv`);
       const text = await response.text();
       const rows = text.split('\n').map(name => name.trim()).filter(name => name.length > 0);
       setAllNames(rows);
       setIsLoaded(true);
     } catch (error) {
+      console.error('Error loading names:', error);
       toast({
         title: "Error",
         description: "Failed to load names",
