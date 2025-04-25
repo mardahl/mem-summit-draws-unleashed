@@ -170,3 +170,33 @@
     padding: 0;
   }
 }
+
+.wheel-container {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-out;
+}
+
+.wheel-item {
+  backface-visibility: hidden;
+  transform-origin: center;
+  transition: transform 0.5s ease-out;
+}
+
+.spinning {
+  animation: spin-wheel 3s cubic-bezier(0.3, 0, 0.2, 1);
+}
+
+@keyframes spin-wheel {
+  0% {
+    transform: rotateY(0deg);
+  }
+  80% {
+    transform: rotateY(1800deg);
+  }
+  95% {
+    transform: rotateY(1760deg);
+  }
+  100% {
+    transform: rotateY(1800deg);
+  }
+}

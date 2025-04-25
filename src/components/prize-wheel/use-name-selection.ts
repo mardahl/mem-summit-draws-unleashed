@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { toast } from '@/components/ui/use-toast';
+import { toast } from '@/hooks/use-toast';
 import Cookies from 'js-cookie';
 
 const COOKIE_NAME = 'selectedNames';
@@ -17,14 +17,12 @@ export const useNameSelection = () => {
 
   useEffect(() => {
     fetchNames();
-    // Load winners from cookies if they exist
     const storedWinners = getSelectedNames();
     if (storedWinners && storedWinners.length > 0) {
       setWinners(storedWinners);
     }
   }, []);
 
-  // Update available names whenever all names or winners change
   useEffect(() => {
     if (allNames.length > 0) {
       setAvailableNames(allNames.filter(name => !winners.includes(name)));
@@ -39,7 +37,6 @@ export const useNameSelection = () => {
 
   const fetchNames = async () => {
     try {
-      // Check if we have custom names stored
       const customNames = Cookies.get(NAMES_COOKIE);
       if (customNames) {
         const names = JSON.parse(customNames);
@@ -48,7 +45,6 @@ export const useNameSelection = () => {
         return;
       }
 
-      // Fall back to default names.csv
       const response = await fetch('/names.csv');
       const text = await response.text();
       const rows = text.split('\n').map(name => name.trim()).filter(name => name.length > 0);
@@ -69,7 +65,6 @@ export const useNameSelection = () => {
   };
 
   const saveSelectedNames = (selectedNames: string[]) => {
-    // Ensure we're only saving unique names to the cookie
     const uniqueNames = [...new Set(selectedNames)];
     Cookies.set(COOKIE_NAME, JSON.stringify(uniqueNames));
   };
@@ -87,7 +82,6 @@ export const useNameSelection = () => {
   const resetSelections = () => {
     setWinners([]);
     Cookies.remove(COOKIE_NAME);
-    // Reset available names to all names
     setAvailableNames([...allNames]);
     setSelectedName('');
     setDisplayName('Let\'s find a winner!');
@@ -99,9 +93,8 @@ export const useNameSelection = () => {
 
   const animateNameSelection = (names: string[], finalWinner: string) => {
     let iterations = 0;
-    const maxIterations = 20;
+    const maxIterations = 30;
     const interval = setInterval(() => {
-      // Get random name from available names for animation
       const randomIndex = Math.floor(Math.random() * names.length);
       setDisplayName(names[randomIndex]);
       iterations++;
@@ -111,7 +104,6 @@ export const useNameSelection = () => {
         setDisplayName(finalWinner);
         setIsSpinning(false);
         
-        // ONLY add the winner to the winners list AFTER animation completes
         const updatedWinners = [...winners, finalWinner];
         setWinners(updatedWinners);
         saveSelectedNames(updatedWinners);
@@ -127,7 +119,6 @@ export const useNameSelection = () => {
   };
 
   const selectName = () => {
-    // Don't proceed if names haven't loaded yet
     if (!isLoaded || allNames.length === 0) {
       toast({
         title: "Loading",
@@ -148,14 +139,11 @@ export const useNameSelection = () => {
 
     setIsSpinning(true);
     
-    // Select a winner from the available names
     const randomIndex = Math.floor(Math.random() * availableNames.length);
     const newWinner = availableNames[randomIndex];
     
     setSelectedName(newWinner);
     
-    // Don't update winners here - it happens after animation completes
-    // Animate the selection from the available names
     animateNameSelection([...availableNames], newWinner);
   };
 

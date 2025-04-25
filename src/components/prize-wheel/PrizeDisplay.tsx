@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Loader2, Sparkles, Award, MoreVertical } from 'lucide-react';
+import { Loader2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import CsvUpload from './CsvUpload';
 import {
@@ -38,38 +39,30 @@ const PrizeDisplay = ({ displayName, isSpinning, onSelect, onReset, onNamesLoade
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="text-center mb-12">
+
+      <div className="text-center mb-12 perspective-1000">
         <Award className="w-16 h-16 mx-auto mb-6 text-purple-500" />
-        <h2 
-          className={cn(
-            "text-5xl md:text-7xl font-bold transition-all duration-500",
-            isSpinning && "animate-[winner-animation_3s_ease-in-out] text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600"
-          )}
-        >
-          {displayName}
-        </h2>
-        {isSpinning && (
-          <>
-            <div className="absolute inset-0 animate-[particle-explosion_3s_ease-out]">
-              {[...Array(20)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-2 h-2 rounded-full bg-purple-500"
-                  style={{
-                    left: `${50 + Math.cos(i / 20 * Math.PI * 2) * 30}%`,
-                    top: `${50 + Math.sin(i / 20 * Math.PI * 2) * 30}%`,
-                    transform: `scale(${1 + Math.random()})`,
-                    opacity: 0,
-                    animation: `particle-fade 3s ease-out infinite`,
-                    animationDelay: `${i * 0.1}s`,
-                    boxShadow: '0 0 10px 2px rgba(168, 85, 247, 0.4)'
-                  }}
-                />
-              ))}
-            </div>
-            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-purple-300/10 to-blue-300/10 rounded-3xl"></div>
-          </>
-        )}
+        
+        <div className="relative h-[300px] w-[300px] mx-auto">
+          <div className={cn(
+            "absolute inset-0 wheel-container",
+            isSpinning && "spinning"
+          )}>
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-full h-full origin-center wheel-item"
+                style={{
+                  transform: `rotateY(${i * (360 / 12)}deg) translateZ(150px)`
+                }}
+              >
+                <div className="text-2xl font-bold text-purple-600 bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+                  {displayName}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       <Button
