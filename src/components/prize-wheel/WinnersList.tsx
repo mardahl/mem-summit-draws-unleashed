@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Trophy, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -14,7 +13,10 @@ const WinnersList: React.FC<WinnersListProps> = ({ winners, onRemoveWinner }) =>
   }
 
   return (
-    <div className="w-full bg-white bg-opacity-80 rounded-xl shadow-lg p-6 backdrop-blur-sm border border-purple-100">
+    <div 
+      className="w-full bg-white bg-opacity-80 rounded-xl shadow-lg p-6 backdrop-blur-sm border border-purple-100 
+                 animate-in slide-in-from-bottom duration-500"
+    >
       <div className="flex items-center justify-center mb-4">
         <Trophy className="w-6 h-6 text-yellow-500 mr-2" />
         <h3 className="text-xl font-bold text-purple-800">Winners Circle</h3>
