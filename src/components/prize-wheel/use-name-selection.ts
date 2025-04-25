@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import Cookies from 'js-cookie';
@@ -87,6 +88,8 @@ export const useNameSelection = () => {
   const resetSelections = () => {
     setWinners([]);
     Cookies.remove(COOKIE_NAME);
+    // Also remove the custom names cookie to fully reset to defaults
+    Cookies.remove(NAMES_COOKIE);
     
     // Refetch the original names from CSV after resetting
     fetchNames();
