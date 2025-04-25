@@ -10,16 +10,7 @@ import PrizeDisplay from './prize-wheel/PrizeDisplay';
 import WinnersList from './prize-wheel/WinnersList';
 
 const PrizeWheel: React.FC = () => {
-  const { 
-    displayName, 
-    isSpinning, 
-    selectName, 
-    resetSelections, 
-    winners, 
-    removeWinner, 
-    handleNamesLoaded,
-    availableNames 
-  } = useNameSelection();
+  const { displayName, isSpinning, selectName, resetSelections, winners, removeWinner, handleNamesLoaded } = useNameSelection();
   
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
@@ -51,7 +42,6 @@ const PrizeWheel: React.FC = () => {
           onSelect={selectName}
           onReset={resetSelections}
           onNamesLoaded={handleNamesLoaded}
-          availableNames={availableNames}
         />
         {winners.length > 0 && (
           <WinnersList winners={winners} onRemoveWinner={removeWinner} />

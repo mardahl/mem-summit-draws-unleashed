@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import Cookies from 'js-cookie';
@@ -170,7 +169,6 @@ export const useNameSelection = () => {
     handleNamesLoaded: (names: string[]) => {
       Cookies.set(NAMES_COOKIE, JSON.stringify(names));
       handleNamesLoaded(names);
-    },
-    availableNames // Add this property to the return object
+    }
   };
 };
