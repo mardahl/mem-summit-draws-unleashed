@@ -17,7 +17,7 @@ const PrizeWheel: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 p-8 relative overflow-hidden">
+    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 p-8 relative overflow-hidden">
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -25,16 +25,20 @@ const PrizeWheel: React.FC = () => {
         className="absolute top-0 left-0 w-full h-full z-0"
       />
       
-      <div className="w-full max-w-4xl mx-auto z-10 flex flex-col items-center justify-center space-y-8">
-        <PrizeHeader />
-        <PrizeDisplay 
-          displayName={displayName}
-          isSpinning={isSpinning}
-          onSelect={selectName}
-          onReset={resetSelections}
-        />
+      <div className="w-full max-w-4xl mx-auto z-10 grid md:grid-cols-2 gap-8 items-center">
+        <div className="space-y-8 text-center md:text-left">
+          <PrizeHeader />
+          <PrizeDisplay 
+            displayName={displayName}
+            isSpinning={isSpinning}
+            onSelect={selectName}
+            onReset={resetSelections}
+          />
+        </div>
         {winners.length > 0 && (
-          <WinnersList winners={winners} />
+          <div className="w-full">
+            <WinnersList winners={winners} />
+          </div>
         )}
       </div>
     </div>
@@ -42,3 +46,4 @@ const PrizeWheel: React.FC = () => {
 };
 
 export default PrizeWheel;
+
