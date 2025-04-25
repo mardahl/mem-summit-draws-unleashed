@@ -21,7 +21,8 @@ export const useNameSelection = () => {
     try {
       const response = await fetch('/names.csv');
       const text = await response.text();
-      const rows = text.split('\n').filter(name => name.trim());
+      // Filter empty names and trim whitespace
+      const rows = text.split('\n').map(name => name.trim()).filter(name => name.length > 0);
       setNames(rows);
       setIsLoaded(true);
     } catch (error) {
@@ -74,6 +75,23 @@ export const useNameSelection = () => {
     }, 100);
   };
 
+  const findValidName = (availableNames: string[]): string => {
+    if (availableNames.length === 0) {
+      return '';
+    }
+    
+    const randomIndex = Math.floor(Math.random() * availableNames.length);
+    const name = availableNames[randomIndex];
+    
+    // Ensure we have a valid name
+    if (!name || name.trim() === '') {
+      // Try again if the name is empty
+      return findValidName(availableNames.filter(n => n && n.trim() !== ''));
+    }
+    
+    return name;
+  };
+
   const selectName = () => {
     // Don't proceed if names haven't loaded yet
     if (!isLoaded || names.length === 0) {
@@ -86,7 +104,7 @@ export const useNameSelection = () => {
     }
 
     const selectedNames = getSelectedNames();
-    const availableNames = names.filter(name => !selectedNames.includes(name));
+    const availableNames = names.filter(name => !selectedNames.includes(name) && name.trim() !== '');
 
     if (availableNames.length === 0) {
       toast({
@@ -98,13 +116,25 @@ export const useNameSelection = () => {
     }
 
     setIsSpinning(true);
-    const randomIndex = Math.floor(Math.random() * availableNames.length);
-    const newSelectedName = availableNames[randomIndex];
-    setSelectedName(newSelectedName);
-    addSelectedName(newSelectedName);
     
-    // Make sure we have a name to animate before starting
-    animateNameSelection(availableNames);
+    // Use our recursive function to ensure we get a valid name
+    const newSelectedName = findValidName(availableNames);
+    
+    if (newSelectedName) {
+      setSelectedName(newSelectedName);
+      addSelectedName(newSelectedName);
+      
+      // Make sure we have a name to animate before starting
+      animateNameSelection(availableNames.filter(name => name && name.trim() !== ''));
+    } else {
+      // This is a fallback in case findValidName fails
+      toast({
+        title: "Error",
+        description: "Could not find a valid name. Please try again.",
+        variant: "destructive"
+      });
+      setIsSpinning(false);
+    }
   };
 
   return {
