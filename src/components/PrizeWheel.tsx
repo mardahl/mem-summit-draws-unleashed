@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState, useRef } from 'react';
 import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
@@ -61,7 +60,7 @@ const PrizeWheel: React.FC = () => {
       />
 
       <div className="absolute top-6 right-6 z-50">
-        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
+        <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button 
               variant="ghost" 
@@ -74,8 +73,14 @@ const PrizeWheel: React.FC = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent 
             align="end" 
-            className="w-56 bg-white/95 backdrop-blur-sm shadow-lg border-none rounded-xl p-2 space-y-1"
+            className="w-72 bg-white/95 backdrop-blur-sm shadow-lg border-none rounded-xl p-2"
           >
+            <DropdownMenuItem 
+              onSelect={(e) => e.preventDefault()}
+              className="p-0 focus:bg-transparent hover:bg-transparent"
+            >
+              <HeaderSettings onHeaderChange={handleHeaderChange} />
+            </DropdownMenuItem>
             <DropdownMenuItem 
               onSelect={(e) => e.preventDefault()}
               className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
@@ -84,23 +89,8 @@ const PrizeWheel: React.FC = () => {
               <CsvUpload onNamesLoaded={handleNamesLoaded} triggerRef={csvUploadRef} />
             </DropdownMenuItem>
             <DropdownMenuItem 
-              onSelect={(e) => e.preventDefault()}
               className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
-            >
-              <div className="flex items-center w-full">
-                <HeaderSettings 
-                  onHeaderChange={handleHeaderChange} 
-                  onDialogOpenChange={(open) => {
-                    if (open) {
-                      setDropdownOpen(false);
-                    }
-                  }}
-                />
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem 
               onSelect={handleResetSelections}
-              className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
             >
               <div className="flex items-center w-full">
                 <RefreshCw className="h-4 w-4 mr-2 shrink-0" /> 
@@ -111,9 +101,7 @@ const PrizeWheel: React.FC = () => {
         </DropdownMenu>
       </div>
       
-      {/* Added a containing div with fixed height to prevent layout shifts */}
       <div className="w-full max-w-4xl mx-auto z-20 flex flex-col items-center justify-center">
-        {/* Content wrapper with fixed layout */}
         <div className="w-full flex flex-col items-center space-y-8">
           <PrizeHeader key={headerUpdate} />
           <PrizeDisplay 
@@ -123,7 +111,6 @@ const PrizeWheel: React.FC = () => {
             onReset={resetSelections}
             onNamesLoaded={handleNamesLoaded}
           />
-          {/* Always render WinnersList, it will handle its own visibility */}
           <WinnersList winners={winners} onRemoveWinner={removeWinner} />
         </div>
       </div>
