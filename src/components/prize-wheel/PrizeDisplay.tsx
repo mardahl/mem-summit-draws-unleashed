@@ -19,7 +19,7 @@ const PrizeDisplay = ({ displayName, isSpinning, onSelect }: PrizeDisplayProps) 
         <h2 
           className={cn(
             "text-5xl md:text-7xl font-bold transition-all duration-500",
-            isSpinning && "animate-[winner-animation_3s_ease-in-out]"
+            isSpinning && "animate-[winner-animation_3s_ease-in-out] text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600"
           )}
         >
           {displayName}
@@ -32,15 +32,18 @@ const PrizeDisplay = ({ displayName, isSpinning, onSelect }: PrizeDisplayProps) 
                   key={i}
                   className="absolute w-2 h-2 rounded-full bg-purple-500"
                   style={{
-                    left: '50%',
-                    top: '50%',
-                    transform: `rotate(${i * 18}deg) translateY(-100px)`,
+                    left: `${50 + Math.cos(i / 20 * Math.PI * 2) * 30}%`,
+                    top: `${50 + Math.sin(i / 20 * Math.PI * 2) * 30}%`,
+                    transform: `scale(${1 + Math.random()})`,
                     opacity: 0,
-                    animation: `particle-fade 3s ease-out infinite`
+                    animation: `particle-fade 3s ease-out infinite`,
+                    animationDelay: `${i * 0.1}s`,
+                    boxShadow: '0 0 10px 2px rgba(168, 85, 247, 0.4)'
                   }}
                 />
               ))}
             </div>
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-purple-300/10 to-blue-300/10 rounded-3xl"></div>
           </>
         )}
       </div>
