@@ -17,9 +17,10 @@ export const useNameSelection = () => {
 
   useEffect(() => {
     fetchNames();
-    // Load previous winners from cookie on initial load
-    const savedWinners = getSelectedNames();
-    setWinners(savedWinners);
+    // Start with an empty winners list
+    setWinners([]);
+    // Remove any existing winners cookie
+    Cookies.remove(COOKIE_NAME);
   }, []);
 
   // Update available names whenever all names or winners change
@@ -112,7 +113,7 @@ export const useNameSelection = () => {
 
     setIsSpinning(true);
     
-    // Use the direct array selection method as shown in the example
+    // Use the direct array selection method 
     const randomIndex = Math.floor(Math.random() * availableNames.length);
     const newWinner = availableNames[randomIndex];
     
