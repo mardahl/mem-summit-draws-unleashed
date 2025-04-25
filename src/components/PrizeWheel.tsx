@@ -7,7 +7,7 @@ import { idleParticlesConfig, spinningParticlesConfig } from './prize-wheel/part
 import PrizeHeader from './prize-wheel/PrizeHeader';
 import PrizeDisplay from './prize-wheel/PrizeDisplay';
 import WinnersList from './prize-wheel/WinnersList';
-import { MoreVertical, RefreshCw } from "lucide-react";
+import { Upload, MoreVertical, RefreshCw, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -71,20 +71,23 @@ const PrizeWheel: React.FC = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent 
             align="end" 
-            className="bg-white/95 backdrop-blur-sm"
+            className="w-64 bg-white/95 backdrop-blur-sm shadow-lg border-none rounded-xl p-2 space-y-1"
           >
             <DropdownMenuItem 
-              asChild 
-              className="flex items-center w-full px-3 py-2 cursor-pointer hover:bg-gray-100/80 focus:bg-gray-100/80"
+              className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
             >
               <CsvUpload onNamesLoaded={handleNamesLoaded} />
             </DropdownMenuItem>
-            <HeaderSettings onHeaderChange={handleHeaderChange} />
+            <DropdownMenuItem 
+              className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
+            >
+              <HeaderSettings onHeaderChange={handleHeaderChange} />
+            </DropdownMenuItem>
             <DropdownMenuItem 
               onSelect={handleResetSelections}
-              className="flex items-center w-full px-3 py-2 cursor-pointer hover:bg-gray-100/80 focus:bg-gray-100/80"
+              className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors flex items-center gap-2"
             >
-              <RefreshCw className="mr-2 h-4 w-4" /> 
+              <RefreshCw className="h-4 w-4" /> 
               <span>Reset to Defaults</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

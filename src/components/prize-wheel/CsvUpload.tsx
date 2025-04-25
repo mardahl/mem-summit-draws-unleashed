@@ -1,6 +1,6 @@
 
 import React, { useRef } from 'react';
-import { FileInput } from 'lucide-react';
+import { Upload } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 
 interface CsvUploadProps {
@@ -57,10 +57,11 @@ const CsvUpload: React.FC<CsvUploadProps> = ({ onNamesLoaded }) => {
         className="hidden"
       />
       <button
+        type="button"
         onClick={() => fileInputRef.current?.click()}
-        className="flex items-center gap-2 w-full"
+        className="flex items-center gap-2 w-full text-left"
       >
-        <FileInput className="h-4 w-4" />
+        <Upload className="h-4 w-4" />
         <span>Upload Names CSV</span>
       </button>
     </>
