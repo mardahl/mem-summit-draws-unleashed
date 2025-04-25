@@ -11,6 +11,7 @@ export const useNameSelection = () => {
   const [selectedName, setSelectedName] = useState<string>('');
   const [isSpinning, setIsSpinning] = useState(false);
   const [displayName, setDisplayName] = useState('Click GO! to start');
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     fetchNames();
@@ -20,8 +21,9 @@ export const useNameSelection = () => {
     try {
       const response = await fetch('/names.csv');
       const text = await response.text();
-      const rows = text.split('\n').slice(1); // Skip header
-      setNames(rows.filter(name => name.trim()));
+      const rows = text.split('\n').filter(name => name.trim());
+      setNames(rows);
+      setIsLoaded(true);
     } catch (error) {
       toast({
         title: "Error",
@@ -51,12 +53,13 @@ export const useNameSelection = () => {
 
   const animateNameSelection = (availableNames: string[]) => {
     let iterations = 0;
+    const maxIterations = 20;
     const interval = setInterval(() => {
       const randomIndex = Math.floor(Math.random() * availableNames.length);
       setDisplayName(availableNames[randomIndex]);
       iterations++;
 
-      if (iterations > 20) {
+      if (iterations >= maxIterations) {
         clearInterval(interval);
         setDisplayName(selectedName);
         setIsSpinning(false);
@@ -72,6 +75,16 @@ export const useNameSelection = () => {
   };
 
   const selectName = () => {
+    // Don't proceed if names haven't loaded yet
+    if (!isLoaded || names.length === 0) {
+      toast({
+        title: "Loading",
+        description: "Names are still loading, please try again in a moment.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     const selectedNames = getSelectedNames();
     const availableNames = names.filter(name => !selectedNames.includes(name));
 
@@ -89,6 +102,8 @@ export const useNameSelection = () => {
     const newSelectedName = availableNames[randomIndex];
     setSelectedName(newSelectedName);
     addSelectedName(newSelectedName);
+    
+    // Make sure we have a name to animate before starting
     animateNameSelection(availableNames);
   };
 
