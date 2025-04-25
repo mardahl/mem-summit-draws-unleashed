@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState } from 'react';
 import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
@@ -7,7 +8,7 @@ import { idleParticlesConfig, spinningParticlesConfig } from './prize-wheel/part
 import PrizeHeader from './prize-wheel/PrizeHeader';
 import PrizeDisplay from './prize-wheel/PrizeDisplay';
 import WinnersList from './prize-wheel/WinnersList';
-import { Upload, MoreVertical, RefreshCw, Settings } from "lucide-react";
+import { MoreVertical, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -71,24 +72,30 @@ const PrizeWheel: React.FC = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent 
             align="end" 
-            className="w-64 bg-white/95 backdrop-blur-sm shadow-lg border-none rounded-xl p-2 space-y-1"
+            className="w-56 bg-white/95 backdrop-blur-sm shadow-lg border-none rounded-xl p-2 space-y-1"
           >
             <DropdownMenuItem 
+              onSelect={(e) => e.preventDefault()}
               className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
+              onClick={() => fileInputRef.current?.click()}
             >
               <CsvUpload onNamesLoaded={handleNamesLoaded} />
             </DropdownMenuItem>
             <DropdownMenuItem 
               className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
             >
-              <HeaderSettings onHeaderChange={handleHeaderChange} />
+              <div className="flex items-center w-full">
+                <HeaderSettings onHeaderChange={handleHeaderChange} />
+              </div>
             </DropdownMenuItem>
             <DropdownMenuItem 
               onSelect={handleResetSelections}
-              className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors flex items-center gap-2"
+              className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
             >
-              <RefreshCw className="h-4 w-4" /> 
-              <span>Reset to Defaults</span>
+              <div className="flex items-center w-full">
+                <RefreshCw className="h-4 w-4 mr-2 shrink-0" /> 
+                <span>Reset to Defaults</span>
+              </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

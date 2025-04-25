@@ -56,14 +56,10 @@ const CsvUpload: React.FC<CsvUploadProps> = ({ onNamesLoaded }) => {
         onChange={handleFileUpload}
         className="hidden"
       />
-      <button
-        type="button"
-        onClick={() => fileInputRef.current?.click()}
-        className="flex items-center gap-2 w-full text-left"
-      >
-        <Upload className="h-4 w-4" />
+      <div className="flex items-center w-full">
+        <Upload className="h-4 w-4 mr-2 shrink-0" />
         <span>Upload Names CSV</span>
-      </button>
+      </div>
     </>
   );
 };
