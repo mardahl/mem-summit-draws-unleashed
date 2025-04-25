@@ -5,10 +5,16 @@ import { toast } from '@/hooks/use-toast';
 
 interface CsvUploadProps {
   onNamesLoaded: (names: string[]) => void;
+  triggerRef?: React.RefObject<{ click: () => void }>;
 }
 
-const CsvUpload: React.FC<CsvUploadProps> = ({ onNamesLoaded }) => {
+const CsvUpload: React.FC<CsvUploadProps> = ({ onNamesLoaded, triggerRef }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Expose a click method that the parent component can call
+  React.useImperativeHandle(triggerRef, () => ({
+    click: () => fileInputRef.current?.click()
+  }), []);
 
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

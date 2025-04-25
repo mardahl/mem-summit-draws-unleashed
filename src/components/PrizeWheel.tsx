@@ -1,5 +1,5 @@
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { loadFull } from "tsparticles";
 import type { Engine } from "tsparticles-engine";
 import Particles from "react-particles";
@@ -23,6 +23,7 @@ import Cookies from 'js-cookie';
 const PrizeWheel: React.FC = () => {
   const { displayName, isSpinning, selectName, resetSelections, winners, removeWinner, handleNamesLoaded } = useNameSelection();
   const [headerUpdate, setHeaderUpdate] = useState(0);
+  const csvUploadRef = useRef<{ click: () => void }>(null);
 
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
@@ -77,9 +78,9 @@ const PrizeWheel: React.FC = () => {
             <DropdownMenuItem 
               onSelect={(e) => e.preventDefault()}
               className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => csvUploadRef.current?.click()}
             >
-              <CsvUpload onNamesLoaded={handleNamesLoaded} />
+              <CsvUpload onNamesLoaded={handleNamesLoaded} triggerRef={csvUploadRef} />
             </DropdownMenuItem>
             <DropdownMenuItem 
               className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
