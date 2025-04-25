@@ -45,14 +45,29 @@ const PrizeDisplay = ({ displayName, isSpinning, onSelect, onReset, onNamesLoade
             isSpinning && "animate-[pulse_1s_ease-in-out_infinite] text-purple-600"
           )} 
         />
-        <h2 
-          className={cn(
-            "text-5xl md:text-7xl font-bold transition-all duration-500",
-            isSpinning && "animate-[winner-animation_3s_ease-in-out] text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600"
+        <div className="relative">
+          <h2 
+            className={cn(
+              "text-5xl md:text-7xl font-bold transition-all duration-500",
+              isSpinning && "animate-[winner-animation_3s_ease-in-out] text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600"
+            )}
+          >
+            {displayName}
+          </h2>
+          {!isSpinning && displayName !== "Let's find a winner!" && (
+            <h2 
+              className="absolute left-1/2 top-1/2 text-5xl md:text-7xl font-bold pointer-events-none"
+              style={{
+                animation: 'ghost-clone 1s ease-out forwards',
+                position: 'absolute',
+                willChange: 'transform, opacity',
+                transformOrigin: 'center center'
+              }}
+            >
+              {displayName}
+            </h2>
           )}
-        >
-          {displayName}
-        </h2>
+        </div>
         {isSpinning && (
           <>
             <div className="absolute inset-0 animate-[particle-explosion_3s_ease-out]">

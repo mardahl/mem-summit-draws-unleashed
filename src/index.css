@@ -159,6 +159,23 @@
   }
 }
 
+@keyframes ghost-clone {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+    background: linear-gradient(to right, #ffd700, #ffa500);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5);
+    opacity: 0;
+    background: linear-gradient(to right, #ffd700, #ffa500);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
