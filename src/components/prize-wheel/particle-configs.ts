@@ -1,7 +1,8 @@
+
 export const idleParticlesConfig = {
   particles: {
     number: {
-      value: 15,
+      value: 45,  // Increased from 15 to 45 (tripled)
       density: {
         enable: true,
         value_area: 800
