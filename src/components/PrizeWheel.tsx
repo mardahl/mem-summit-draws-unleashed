@@ -8,7 +8,7 @@ import { idleParticlesConfig, spinningParticlesConfig } from './prize-wheel/part
 import PrizeHeader from './prize-wheel/PrizeHeader';
 import PrizeDisplay from './prize-wheel/PrizeDisplay';
 import WinnersList from './prize-wheel/WinnersList';
-import { MoreVertical } from "lucide-react";
+import { MoreVertical, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -55,7 +55,7 @@ const PrizeWheel: React.FC = () => {
               <CsvUpload onNamesLoaded={handleNamesLoaded} />
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={resetSelections}>
-              Reset Selections
+              <RefreshCw className="mr-2 h-4 w-4" /> Reset Selections
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
