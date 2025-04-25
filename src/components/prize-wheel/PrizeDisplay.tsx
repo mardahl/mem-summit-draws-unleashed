@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles, MoreVertical, Award } from 'lucide-react';
@@ -40,23 +39,26 @@ const PrizeDisplay = ({ displayName, isSpinning, onSelect, onReset, onNamesLoade
         </DropdownMenu>
       </div>
 
-      <div className="text-center mb-12 perspective-1000">
+      <div className="text-center mb-12">
         <Award className="w-16 h-16 mx-auto mb-6 text-purple-500" />
         
-        <div className="relative h-[300px] w-[300px] mx-auto">
+        <div className="relative h-[400px] w-[400px] mx-auto perspective-[2000px]">
           <div className={cn(
             "absolute inset-0 wheel-container",
             isSpinning && "spinning"
-          )}>
+          )}
+          style={{
+            transform: 'rotateX(-25deg)'
+          }}>
             {Array.from({ length: 12 }).map((_, i) => (
               <div
                 key={i}
                 className="absolute w-full h-full origin-center wheel-item"
                 style={{
-                  transform: `rotateY(${i * (360 / 12)}deg) translateZ(150px)`
+                  transform: `rotateY(${i * (360 / 12)}deg) translateZ(200px)`
                 }}
               >
-                <div className="text-2xl font-bold text-purple-600 bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-lg">
+                <div className="text-2xl font-bold text-purple-600 bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg hover:bg-white/95 transition-colors">
                   {displayName}
                 </div>
               </div>
