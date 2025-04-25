@@ -24,6 +24,7 @@ const PrizeWheel: React.FC = () => {
   const { displayName, isSpinning, selectName, resetSelections, winners, removeWinner, handleNamesLoaded } = useNameSelection();
   const [headerUpdate, setHeaderUpdate] = useState(0);
   const csvUploadRef = useRef<{ click: () => void }>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
@@ -60,7 +61,7 @@ const PrizeWheel: React.FC = () => {
       />
 
       <div className="absolute top-6 right-6 z-50">
-        <DropdownMenu>
+        <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
           <DropdownMenuTrigger asChild>
             <Button 
               variant="ghost" 
@@ -83,10 +84,18 @@ const PrizeWheel: React.FC = () => {
               <CsvUpload onNamesLoaded={handleNamesLoaded} triggerRef={csvUploadRef} />
             </DropdownMenuItem>
             <DropdownMenuItem 
+              onSelect={(e) => e.preventDefault()}
               className="px-3 py-2.5 rounded-lg cursor-pointer hover:bg-gray-100 focus:bg-gray-100 transition-colors"
             >
               <div className="flex items-center w-full">
-                <HeaderSettings onHeaderChange={handleHeaderChange} />
+                <HeaderSettings 
+                  onHeaderChange={handleHeaderChange} 
+                  onDialogOpenChange={(open) => {
+                    if (open) {
+                      setDropdownOpen(false);
+                    }
+                  }}
+                />
               </div>
             </DropdownMenuItem>
             <DropdownMenuItem 
