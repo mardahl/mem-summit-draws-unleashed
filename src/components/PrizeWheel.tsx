@@ -19,8 +19,9 @@ const PrizeWheel: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-8 relative overflow-hidden">
       <div 
-        className="fixed inset-0 w-full h-full transition-all duration-1000 ease-in-out animate-gradient bg-gradient-to-br from-purple-50 via-white to-blue-50"
+        className="fixed inset-0 w-full h-full z-0"
         style={{
+          backgroundImage: 'linear-gradient(to bottom right, #E5DEFF, #D3E4FD, #F1F0FB)',
           backgroundSize: '400% 400%',
           animation: 'gradient 15s ease infinite',
         }}
@@ -30,10 +31,10 @@ const PrizeWheel: React.FC = () => {
         id="tsparticles"
         init={particlesInit}
         options={isSpinning ? spinningParticlesConfig : idleParticlesConfig}
-        className="absolute top-0 left-0 w-full h-full z-0"
+        className="absolute top-0 left-0 w-full h-full z-10"
       />
       
-      <div className="w-full max-w-4xl mx-auto z-10 flex flex-col items-center justify-center space-y-8">
+      <div className="w-full max-w-4xl mx-auto z-20 flex flex-col items-center justify-center space-y-8">
         <PrizeHeader />
         <PrizeDisplay 
           displayName={displayName}
