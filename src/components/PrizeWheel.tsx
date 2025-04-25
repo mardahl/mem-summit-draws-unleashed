@@ -8,7 +8,6 @@ import { idleParticlesConfig, spinningParticlesConfig } from './prize-wheel/part
 import PrizeHeader from './prize-wheel/PrizeHeader';
 import PrizeDisplay from './prize-wheel/PrizeDisplay';
 import WinnersList from './prize-wheel/WinnersList';
-// Remove FloatingResetButton import
 
 const PrizeWheel: React.FC = () => {
   const { displayName, isSpinning, selectName, resetSelections, winners, removeWinner, handleNamesLoaded } = useNameSelection();
@@ -18,7 +17,15 @@ const PrizeWheel: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-purple-50 via-white to-blue-50 p-8 relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 relative overflow-hidden">
+      <div 
+        className="fixed inset-0 w-full h-full transition-all duration-1000 ease-in-out animate-gradient bg-gradient-to-br from-purple-50 via-white to-blue-50"
+        style={{
+          backgroundSize: '400% 400%',
+          animation: 'gradient 15s ease infinite',
+        }}
+      />
+      
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -39,7 +46,6 @@ const PrizeWheel: React.FC = () => {
           <WinnersList winners={winners} onRemoveWinner={removeWinner} />
         )}
       </div>
-      {/* Remove FloatingResetButton */}
     </div>
   );
 };
