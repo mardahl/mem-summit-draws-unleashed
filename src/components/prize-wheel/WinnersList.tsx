@@ -7,6 +7,10 @@ interface WinnersListProps {
 }
 
 const WinnersList: React.FC<WinnersListProps> = ({ winners }) => {
+  if (!winners || winners.length === 0) {
+    return null;
+  }
+
   return (
     <div className="w-full bg-white bg-opacity-80 rounded-xl shadow-lg p-6 backdrop-blur-sm border border-purple-100">
       <div className="flex items-center justify-center mb-4">

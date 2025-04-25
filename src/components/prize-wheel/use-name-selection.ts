@@ -17,10 +17,11 @@ export const useNameSelection = () => {
 
   useEffect(() => {
     fetchNames();
-    // Start with an empty winners list
-    setWinners([]);
-    // Remove any existing winners cookie
-    Cookies.remove(COOKIE_NAME);
+    // Load winners from cookies if they exist
+    const storedWinners = getSelectedNames();
+    if (storedWinners && storedWinners.length > 0) {
+      setWinners(storedWinners);
+    }
   }, []);
 
   // Update available names whenever all names or winners change
@@ -61,6 +62,8 @@ export const useNameSelection = () => {
     Cookies.remove(COOKIE_NAME);
     // Reset available names to all names
     setAvailableNames([...allNames]);
+    setSelectedName('');
+    setDisplayName('Let\'s find a winner!');
     toast({
       title: "Reset Complete",
       description: "All selections have been cleared"
