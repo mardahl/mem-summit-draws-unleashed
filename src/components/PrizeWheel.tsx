@@ -8,7 +8,7 @@ import { idleParticlesConfig, spinningParticlesConfig } from './prize-wheel/part
 import PrizeHeader from './prize-wheel/PrizeHeader';
 import PrizeDisplay from './prize-wheel/PrizeDisplay';
 import WinnersList from './prize-wheel/WinnersList';
-import FloatingResetButton from './prize-wheel/FloatingResetButton';
+// Remove FloatingResetButton import
 
 const PrizeWheel: React.FC = () => {
   const { displayName, isSpinning, selectName, resetSelections, winners, removeWinner, handleNamesLoaded } = useNameSelection();
@@ -39,7 +39,7 @@ const PrizeWheel: React.FC = () => {
           <WinnersList winners={winners} onRemoveWinner={removeWinner} />
         )}
       </div>
-      <FloatingResetButton onReset={resetSelections} />
+      {/* Remove FloatingResetButton */}
     </div>
   );
 };
